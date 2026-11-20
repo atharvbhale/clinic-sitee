@@ -1,0 +1,11 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { enquirySchema, normalizePhone, istDate } from "../lib/validation/enquiry";
+const ok = { name: "  Asha  Patil ", phone: "+91 93265 53755", category: "Skin", preferredDate: istDate(3), preferredTime: "morning", patientType: "new", source: "/book" };
+test("normalises phone formats", () => { for (const p of ["9326553755", "+919326553755", "09326553755", "93265 53755"]) assert.equal(normalizePhone(p), "9326553755"); });
+test("accepts valid input and cleans name", () => { const r = enquirySchema.parse(ok); assert.equal(r.name, "Asha Patil"); assert.equal(r.phone, "9326553755"); });
+test("rejects bad phones", () => { for (const p of ["1234567890", "932655375", "abcdefghij"]) assert.equal(enquirySchema.safeParse({ ...ok, phone: p }).success, false); });
+test("rejects past and far-future dates", () => { for (const d of [istDate(-1), istDate(61)]) assert.equal(enquirySchema.safeParse({ ...ok, preferredDate: d }).success, false); });
+test("rejects markup in name", () => { assert.equal(enquirySchema.safeParse({ ...ok, name: "<script>x</script>" }).success, false); });
+test("rejects unknown category", () => { assert.equal(enquirySchema.safeParse({ ...ok, category: "Hack" }).success, false); });
+test("bad source falls back to /book", () => { assert.equal(enquirySchema.parse({ ...ok, source: "http://evil" }).source, "/book"); });

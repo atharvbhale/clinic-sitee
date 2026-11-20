@@ -1,0 +1,17 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+@layer base {
+  html { scroll-padding-top: 5rem; }
+  body { @apply bg-beige-50 font-sans text-[1.125rem] leading-[1.6] text-ink antialiased; }
+  h1,h2,h3 { @apply font-display font-medium leading-[1.1] text-emerald-900; }
+  :focus-visible { outline: 2px solid #26735A; outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+}
+@layer components {
+  .btn { @apply inline-flex min-h-[44px] items-center justify-center rounded-sm px-6 py-3 text-sm font-medium transition-colors; }
+  .btn-primary { @apply bg-emerald-900 text-white hover:bg-emerald-700; }
+  .btn-outline { @apply border border-emerald-700 text-emerald-900 hover:bg-sage-100; }
+  .eyebrow { @apply text-xs font-medium uppercase tracking-[0.14em] text-moss; }
+  .dev-pending { @apply ml-2 rounded-sm bg-gold-500 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-emerald-900; }
+}
+.lang-deva { font-family: "Mukta", "Inter Variable", system-ui, sans-serif; }
+.lang-deva h1, .lang-deva h2, .lang-deva h3 { font-family: "Noto Serif Devanagari Variable", serif; line-height: 1.3; }
